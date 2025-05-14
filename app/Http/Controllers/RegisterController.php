@@ -2,35 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\QueryException;
 
 class RegisterController extends Controller
 {
-    public function create(){
-        return view('auth.register');
+    /** Mostrar el formulario */
+    public function create()
+    {
+        return view('auth.register'); // o la ruta a tu Blade
     }
 
-    public function store(){
+    /** Procesar el registro */
+    public function store(Request $request)
+    {
+        // 1) Validar TODOS los campos, incluyendo el unique para email
+        $validated = $request->validate(
+            [
+                'nombre'      => ['required','string','max:255'],
+                'email'       => ['required','email','max:255','unique:users,email'],
+                'password'    => ['required','string','min:8'],
+                'tipoUsuario' => ['required','in:Alumno,Docente'],
+            ],
+            [
+                'email.unique' => 'Ese correo ya está registrado. ¿Olvidaste tu contraseña?',
+            ]
+        );
 
-        $this->validate(request(),[
-            'nombre'=> 'required',
-            'email'=> 'required|email',
-            'password'=>'required',
-            'tipoUsuario'=>'required',
-        ]);
-        // $email = request('email');
-        // if(User::where('email', $email)->exists()){
-        //     return back()->withErrors([
-        //         'email' => 'Correo registrado',
-        //     ]);
-        // }
+        // 2) Intentar crear el usuario dentro de un try/catch
+        try {
+            User::create([
+                'nombre'      => $validated['nombre'],
+                'email'       => $validated['email'],
+                'password'    => Hash::make($validated['password']),
+                'tipoUsuario' => $validated['tipoUsuario'],
+            ]);
+        } catch (QueryException $e) {
+            // Código 23000 = violación de unique en MySQL
+            if ($e->getCode() === '23000') {
+                return back()
+                    ->withErrors(['email' => 'Ese correo ya está registrado.'])
+                    ->withInput();
+            }
+            // Cualquier otro error, relanzarlo
+            throw $e;
+        }
 
-        // Recordemos que debemos utilizar el siguiente metodo para poder hacer un
-        // guardado en la base de datos con todos los atributos utilizando request
-        $user = User::create(request(['nombre','email','password','tipoUsuario']));
-        auth()->login($user);
-        return redirect()->to('/login');
+        // 3) Redirigir al login con mensaje de éxito
+        return redirect()
+            ->route('login.index')
+            ->with('status', 'Usuario registrado con éxito. ¡Bienvenido!');
     }
 }

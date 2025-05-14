@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SessionsController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
