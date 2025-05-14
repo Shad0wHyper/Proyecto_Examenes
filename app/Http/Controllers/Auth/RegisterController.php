@@ -12,7 +12,7 @@ class RegisterController extends Controller
     /** Mostrar el formulario */
     public function create()
     {
-        return view('auth.register'); // o la ruta a tu Blade
+        return view('auth.register');
     }
 
     /** Procesar el registro */

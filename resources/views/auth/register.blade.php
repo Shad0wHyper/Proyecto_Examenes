@@ -3,6 +3,28 @@
 @section('title', 'Register')
 
 @section('content')
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+        integrity="sha512-PK2eb+XN/hX4w/zlf0ds3tNg+4jbttVyG1w4JfDIMTxGz1JkHjZ1YvhIxYpFfS1g9InD+zBRqtYmg3jBeIFm8A=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    ></script>
+
+    <script>
+        // Opciones de Toastr (ajústalas a tu gusto)
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "4000"
+        };
+
+        @if(session('status'))
+        toastr.success("{{ session('status') }}");
+        @endif
+    </script>
+
     <style>
         #noinicio{
             display: none;
@@ -97,5 +119,7 @@
             </div>
     </center>
     </div>
+
+
 
 @endsection
