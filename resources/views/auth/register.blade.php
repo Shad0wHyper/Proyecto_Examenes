@@ -56,9 +56,9 @@
         }
     </style>
 
-    <center>
+    <div class="text-center">
         <br>
-        <div class="backg">
+        <div class="backg inline-block">
             <br>
             <br>
             <br>
@@ -117,7 +117,8 @@
                 </form>
 
             </div>
-    </center>
+        </div>
+    </div>
     </div>
 
 
