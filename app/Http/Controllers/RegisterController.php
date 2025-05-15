@@ -41,7 +41,7 @@ class RegisterController extends Controller
             $user = User::create([
                 'nombre'      => $validated['nombre'],
                 'email'       => $validated['email'],
-                'password'    => Hash::make($validated['password']),
+                'password'    => $validated['password'],
                 'tipoUsuario' => 'Alumno',
             ]);
         } catch (QueryException $e) {

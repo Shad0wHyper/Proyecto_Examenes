@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SessionsController;
 use Illuminate\Support\Facades\Route;
@@ -40,10 +41,9 @@ Route::get('/login',[SessionsController::class, 'create'])->middleware('guest')-
 Route::post('/login',[SessionsController::class, 'store'])->name('login.store');
 
 //Ruta para cerrar la sesion
-Route::get('/logout',[SessionsController::class, 'destroy'])->middleware('auth')->name('login.destroy');
-
-//Ruta para cerrar la sesion
-Route::get('/logout',[SessionsController::class, 'destroy'])->middleware('auth')->name('login.destroy');
+Route::post('/logout', [SessionsController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('login.destroy');
 
 // Ruta para redireccionar a su respectivo dashboard
 Route::get('/dashboardAlumno',[RedirectController::class, 'alumno'])->middleware('auth')->name('dashboard.alumno');
@@ -102,5 +102,13 @@ Route::put('/editando',[RedirectController::class,'updatePregunta'])->middleware
 // Eliminando pregunta
 Route::delete('/eliminar',[RedirectController::class,'eliminarPregunta'])->middleware('auth')->name('eliminarPregunta.docente');
 
+// Rutas de administrador
+Route::middleware(['auth','is_admin'])
+    ->prefix('admin')->name('admin.')->group(function() {
+        Route::get('/',          [AdminController::class,'dashboard'])->name('dashboard');
+        Route::get('users',      [AdminController::class,'index'])->name('users.index');
+        Route::get('users/create',[AdminController::class,'create'])->name('users.create');
+        Route::post('users',     [AdminController::class,'store'])->name('users.store');
+    });
 
 
