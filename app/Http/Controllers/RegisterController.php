@@ -29,7 +29,7 @@ class RegisterController extends Controller
                 'nombre'      => ['required', 'string', 'max:255'],
                 'email'       => ['required', 'email', 'max:255', 'unique:users,email'],
                 'password'    => ['required', 'string', 'min:8'],
-                'tipoUsuario' => ['required', 'in:Alumno,Docente'],
+                'tipoUsuario' => 'Alumno',
             ],
             [
                 'email.unique' => 'Ese correo ya está registrado. ¿Olvidaste tu contraseña?',
@@ -42,7 +42,7 @@ class RegisterController extends Controller
                 'nombre'      => $validated['nombre'],
                 'email'       => $validated['email'],
                 'password'    => Hash::make($validated['password']),
-                'tipoUsuario' => $validated['tipoUsuario'],
+                'tipoUsuario' => 'Alumno',
             ]);
         } catch (QueryException $e) {
             // Si por alguna carrera de concurrencia o salto de validación ocurre un duplicado:
@@ -59,6 +59,6 @@ class RegisterController extends Controller
         Auth::login($user);
 
         // 4) Redirigimos donde tenías originalmente (por ejemplo, al login o dashboard):
-        return redirect()->to('/login');
+        return redirect()->route('dashboard.alumno');
     }
 }

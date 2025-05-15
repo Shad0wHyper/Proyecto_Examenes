@@ -99,17 +99,7 @@
                     @error('password')
                     <p class="border border-red-500 rounded-md bg-red-100   text-red-600 p-2 my-2">* {{$message}}</p>
                     @enderror
-                    <p style="font-weight:bold; ">Tipo de usuario:</p>
-                    <select  class="border border-gray-200 rounded-md bg-gray-100
-    text-lg placeholder-gray-900 p-2 my-2" name="tipoUsuario" id="tipoUsuario">
-                        <option value="Alumno">Alumno</option>
-                        <option value="Docente">Maestro</option>
-                    </select>
 
-
-                    @error('tipoUsuario')
-                    <p class="border border-red-500 rounded-md bg-red-100 text-red-600 p-2 my-2">* {{$message}}</p>
-                    @enderror
 
                     <button type="submit" class="rounded-md bg-red-500 text-lg
     text-white font-semibold p-2 my-3 hover:bg-red-600">Enviar</button>
