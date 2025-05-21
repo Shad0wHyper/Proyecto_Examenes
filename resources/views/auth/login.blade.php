@@ -1,76 +1,76 @@
-
 @extends('layouts.app')
 
-@section('title', 'Login')
+@section('title', 'Iniciar Sesión')
 
 @section('content')
-<style> 
-  #noinicio{
-    display: none;
-  }
- .contenido{
-  margin-top: -150px;
-  margin-left:-30px; 
-  width: 1000px;
-  height: 500px;
-  display: flex;
-  box-shadow: 10px 10px 20px #888888;
- }
- form input,form button{
-  width: 400px;
- }
- form,.desci{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 1000px;
-  height: 500px;
- }
-.backg{
- width: 500px;
-}
-  p{
-    width: 300px;
-  }
-</style>
-<center>
-  <br>
-<div class="backg">
-  <br>
-  <br>
-  <br>
-  <div class="contenido">
-    <div class="desci bg-red-600">
-      <h1 class="text-3xl text-center text-white font-bold"><i>Trivia.net</i></h1><br>
-      <h1 class="text-3xl text-center text-white font-bold">¿Aún no estás registrado?</h1><br>
-      <p class="text-white">Haz click en el siguiente botón para comenzar a contestar nuestra trivia!</p> <br>
-      <a href="{{ route('register.index') }}" class="font-semibold 
-      bg-red-700 py-3 px-4 rounded-md text-white">Registrarse</a>
+    <div class="min-h-screen flex items-center justify-center bg-gray-100">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="px-6 py-8">
+                <h1 class="text-3xl font-bold text-center text-red-600 mb-6">Trivia.net</h1>
+
+                {{-- Errores de validación / credenciales --}}
+                @if($errors->any())
+                    <div class="mb-4 p-3 bg-red-100 text-red-700 rounded">
+                        <ul class="list-disc list-inside text-sm">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('login.store') }}" class="space-y-6">
+                    @csrf
+
+                    {{-- Email --}}
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Correo</label>
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value="{{ old('email') }}"
+                            required
+                            autofocus
+                            class="w-full px-4 py-3 mt-1 bg-gray-100 border border-gray-300 rounded-full
+                               focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+                            placeholder="tucorreo@ejemplo.com"
+                        >
+                    </div>
+
+                    {{-- Contraseña --}}
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            required
+                            class="w-full px-4 py-3 mt-1 bg-gray-100 border border-gray-300 rounded-full
+                               focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+                            placeholder="••••••••"
+                        >
+                    </div>
+
+                    {{-- Submit --}}
+                    <button
+                        type="submit"
+                        class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-semibold
+                           rounded-full transition"
+                    >
+                        Enviar
+                    </button>
+                </form>
+
+                {{-- Link a registro --}}
+                <p class="mt-4 text-center text-sm">
+                    ¿No tienes cuenta?
+                    <a href="{{ route('register.index') }}"
+                       class="text-red-600 hover:underline font-medium">
+                        Regístrate aquí
+                    </a>
+                </p>
+            </div>
+        </div>
     </div>
-    <form method="POST" action="">
-      @csrf
-      <h1 class="text-3xl text-center font-bold">Iniciar sesión</h1><br><br>
-      <input type="email" class="border border-gray-200 rounded-md bg-gray-100 
-      text-lg placeholder-gray-600 p-2 my-2" placeholder="Correo"
-      id="email" name="email">
-  
-      <input type="password" class="border border-gray-200 rounded-md bg-gray-100 
-      text-lg placeholder-gray-600 p-2 my-2" placeholder="Contraseña"
-      id="password" name="password">
-  
-      @error('message')
-      <p class="border border-red-500 rounded-md bg-red-100 w-full
-      text-red-600 p-2 my-2">{{$message}}</p>
-      @enderror
-  <br>
-      <button type="submit" class="rounded-md bg-red-600 text-lg
-      text-white font-semibold p-2 my-3 hover:bg-red-7x00">Enviar</button>
-    </form>
-  </div>
-
-  
-</center>
-</div>
-
 @endsection

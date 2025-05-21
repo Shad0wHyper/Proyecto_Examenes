@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -45,9 +46,15 @@ class User extends Authenticatable
 
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = bcrypt($value);
-    }
 
+        if (Hash::info($value)['algo'] === null) {
+
+            $this->attributes['password'] = bcrypt($value);
+        } else {
+
+            $this->attributes['password'] = $value;
+        }
+    }
 
     public function examenes(){
         return $this->hasMany(Examen::class,'id');

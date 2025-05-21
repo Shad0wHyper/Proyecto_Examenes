@@ -1,116 +1,93 @@
 @extends('layouts.app')
 
-@section('title', 'Register')
+@section('title','Registrar')
 
 @section('content')
+    {{-- Esta capa ocupa todo el viewport y centra su contenido --}}
+    <div class="fixed inset-0 flex items-center justify-center bg-gray-100">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+            <h1 class="text-2xl font-bold text-center mb-6">Crear cuenta</h1>
 
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
-        integrity="sha512-PK2eb+XN/hX4w/zlf0ds3tNg+4jbttVyG1w4JfDIMTxGz1JkHjZ1YvhIxYpFfS1g9InD+zBRqtYmg3jBeIFm8A=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-    ></script>
+            {{-- Notificación Toastr --}}
+            @if(session('status'))
+                <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-    <script>
-        // Opciones de Toastr (ajústalas a tu gusto)
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "timeOut": "4000"
-        };
+            <form method="POST" action="{{ route('register.store') }}" class="space-y-6">
+                @csrf
 
-        @if(session('status'))
-        toastr.success("{{ session('status') }}");
-        @endif
-    </script>
-
-    <style>
-        #noinicio{
-            display: none;
-        }
-        .contenido{
-            margin-top: -150px;
-            margin-left:-30px;
-            width: 1000px;
-            height: 500px;
-            display: flex;
-            box-shadow: 10px 10px 20px #888888;
-        }
-        form input,form button, select{
-            width: 400px;
-        }
-        form,.desci{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 1000px;
-            height: 500px;
-        }
-        .backg{
-            width: 500px;
-        }
-        p{
-            width: 300px;
-        }
-    </style>
-
-    <div class="text-center">
-        <br>
-        <div class="backg inline-block">
-            <br>
-            <br>
-            <br>
-            <div class="contenido">
-                <div class="desci bg-red-600">
-                    <h1 class="text-3xl text-center text-white font-bold"><i>Trivia.net</i></h1><br>
-                    <h1 class="text-3xl text-center text-white font-bold">¿Ya estás registrado?</h1><br>
-                    <p class="text-white">Haz click en el siguiente botón para comenzar a contestar nuestra trivia!</p> <br>
-                    <a href="{{ route('login.index') }}" class="font-semibold
-      bg-red-700 py-3 px-4 rounded-md text-white">Iniciar sesión</a>
+                {{-- Nombre --}}
+                <div>
+                    <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                    <input
+                        id="nombre"
+                        name="nombre"
+                        type="text"
+                        value="{{ old('nombre') }}"
+                        required
+                        class="w-full px-5 py-3 mt-1 bg-gray-100 border border-gray-300 rounded-full
+                   focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+                        placeholder="Tu nombre"
+                    >
+                    @error('nombre')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
-
-                <form method="POST" action="">
-
-                    @csrf
-                    <h1 class="text-3xl text-center font-bold">Registro</h1> <br>
-                    <input type="tex" class="border border-gray-200 rounded-md bg-gray-100
-    text-lg placeholder-gray-900 p-2 my-2 " placeholder="Nombre"
-                           id="nombre" name="nombre">
-
-                    @error('nombre')
-                    <p class="border border-red-500 rounded-md bg-red-100  text-red-600 p-2 my-2">* {{$message}}</p>
-                    @enderror
-
-                    <input type="email" class="border border-gray-200 rounded-md bg-gray-100
-    text-lg placeholder-gray-900 p-2 my-2 " placeholder="Correo"
-                           id="email" name="email">
-
+                {{-- Email --}}
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Correo</label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value="{{ old('email') }}"
+                        required
+                        class="w-full px-5 py-3 mt-1 bg-gray-100 border border-gray-300 rounded-full
+                   focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+                        placeholder="tucorreo@ejemplo.com"
+                    >
                     @error('email')
-                    <p class="border border-red-500 rounded-md bg-red-100  text-red-600 p-2 my-2">* {{$message}}</p>
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
+                </div>
 
-                    <input type="password" class="border border-gray-200 rounded-md bg-gray-100
-    text-lg placeholder-gray-900 p-2 my-2" placeholder="Contraseña"
-                           id="password" name="password">
-
+                {{-- Contraseña --}}
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        required
+                        class="w-full px-5 py-3 mt-1 bg-gray-100 border border-gray-300 rounded-full
+                   focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white"
+                        placeholder="••••••••"
+                    >
                     @error('password')
-                    <p class="border border-red-500 rounded-md bg-red-100   text-red-600 p-2 my-2">* {{$message}}</p>
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
+                </div>
 
+                {{-- Botón Registrar --}}
+                <button
+                    type="submit"
+                    class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-semibold
+                 rounded-full transition"
+                >
+                    Registrar
+                </button>
 
-                    <button type="submit" class="rounded-md bg-red-500 text-lg
-    text-white font-semibold p-2 my-3 hover:bg-red-600">Enviar</button>
-
-                </form>
-
-            </div>
+                {{-- Link a login --}}
+                <p class="text-center text-sm">
+                    ¿Ya tienes cuenta?
+                    <a href="{{ route('login.index') }}" class="text-red-600 hover:underline">
+                        Inicia sesión
+                    </a>
+                </p>
+            </form>
         </div>
     </div>
-    </div>
-
-
-
 @endsection
