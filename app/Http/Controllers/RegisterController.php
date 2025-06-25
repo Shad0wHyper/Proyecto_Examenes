@@ -58,7 +58,7 @@ class RegisterController extends Controller
         // 3) Logueamos automáticamente al usuario:
         Auth::login($user);
 
-        // 4) Redirigimos donde tenías originalmente (por ejemplo, al login o dashboard):
+        // 4) Redirigimos
         return redirect()->route('dashboard.alumno');
     }
 }
