@@ -8,9 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Resultado extends Model
 {
     use HasFactory;
+
+    // Desactivar created_at / updated_at
     public $timestamps = false;
 
-    public function examenes(){
-        return $this->belongsTo(Examen::class,'id_examen');
-    }
+    protected $fillable = [
+        'idAlumno',
+        'alumno',
+        'idDocente',
+        'idExamen',
+        'tituloExamen',
+        'intentos',
+        'promedio',
+    ];
 }

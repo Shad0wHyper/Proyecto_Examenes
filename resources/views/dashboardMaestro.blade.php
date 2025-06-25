@@ -5,9 +5,9 @@
 @section('content')
 <style>
   .usu{
-    background: #E50E0E;  
+    background: #0eb3e5;
     font-size:34px;
-    color: white;
+    color: red;
     padding: 10px 30px;
     border-radius: 15px;
   }

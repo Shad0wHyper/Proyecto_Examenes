@@ -24,7 +24,7 @@
     <div class="grid grid-cols-12 h-screen">
 
         {{-- SIDEBAR --}}
-        <aside class="col-span-12 md:col-span-2 bg-white shadow-lg flex flex-col">
+        <aside class="col-span-12 md:col-span-2 bg- shadow-lg flex flex-col">
             <div class="px-6 py-8 border-b">
                 <h2 class="text-2xl font-bold text-red-600">TRIVIA</h2>
             </div>
@@ -102,7 +102,7 @@
             </div>
         </aside>
 
-        {{-- MAIN CONTENT: ¡sin encabezado extra! --}}
+        {{-- MAIN CONTENT--}}
         <div class="col-span-12 md:col-span-10 flex flex-col">
             <main class="flex-1 overflow-auto p-6">
                 @yield('content')
